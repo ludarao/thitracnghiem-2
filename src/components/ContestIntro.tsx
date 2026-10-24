@@ -7,9 +7,6 @@ import { resolveContestBranding } from "../lib/branding.mjs";
 export default function ContestIntro({ config }: { config: ExamConfig }) {
   const branding = resolveContestBranding(config);
   const title = branding.title.replace(/^Cuộc thi\s*/i, "");
-  const topic = /trật tự an toàn giao thông đường bộ/i;
-  const parts = title.split(topic);
-  const highlighted = title.match(topic)?.[0];
 
   return (
     <section className="contest-intro" aria-labelledby="contest-title">
@@ -17,15 +14,7 @@ export default function ContestIntro({ config }: { config: ExamConfig }) {
         <span /> <p>Cuộc thi</p> <span />
       </div>
       <h1 id="contest-title" className="contest-title">
-        {highlighted ? (
-          <>
-            {parts[0]}
-            <span className="contest-topic">{highlighted}</span>
-            {parts[1]}
-          </>
-        ) : (
-          title
-        )}
+        {title}
       </h1>
       <p className="contest-description">{branding.description}</p>
       <div className="traffic-illustration">

@@ -54,23 +54,28 @@ body {
   box-shadow: 0 3px 0 #a7351b;
 }
 .contest-title {
-  color: #174f83;
-  font-size: clamp(25px, 2.7vw, 36px);
+  position: relative;
+  isolation: isolate;
+  margin: 8px 10px 0;
+  padding: 20px 22px 23px;
+  color: #fffdf5;
+  font-size: clamp(25px, 2.4vw, 32px);
   font-weight: 800;
-  line-height: 1.36;
+  font-style: italic;
+  line-height: 1.45;
   text-transform: uppercase;
   text-wrap: balance;
 }
-.contest-topic {
-  display: block;
-  margin: 14px auto 0;
-  padding: 13px 15px;
-  border-radius: 14px 3px 14px 3px;
-  background: #17558d;
-  color: #fffdf5;
-  font-size: 0.83em;
-  line-height: 1.4;
-  box-shadow: 4px 4px 0 #14558b20;
+.contest-title::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 12px;
+  background: #c34723;
+  box-shadow: 0 5px 0 #a7351b;
+  transform: skew(-3deg);
+  pointer-events: none;
 }
 .contest-description {
   max-width: 510px;
@@ -208,7 +213,7 @@ body {
     padding-top: 8px;
   }
   .contest-title {
-    font-size: clamp(25px, 4.5vw, 36px);
+    font-size: clamp(25px, 4vw, 32px);
   }
   .traffic-illustration {
     max-width: 580px;
@@ -245,11 +250,10 @@ body {
     font-size: 10px;
   }
   .contest-title {
-    font-size: 25px;
-  }
-  .contest-topic {
-    font-size: 21px;
-    padding: 12px;
+    margin-left: 6px;
+    margin-right: 6px;
+    padding: 18px 14px 21px;
+    font-size: 23px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
