@@ -1,9 +1,9 @@
 import type { ExamConfig, ExamResult, CollectiveRank } from "../types/quiz";
+import { CONTEST_TITLE, CONTEST_DESCRIPTION } from "./branding.mjs";
 
 export const DEFAULT_CONFIG: ExamConfig = {
-  title: "HỘI THI TÌM HIỂU NGHỊ QUYẾT ĐẠI HỘI XIII ĐOÀN TNCS HỒ CHÍ MINH",
-  description:
-    "Kiểm tra, đánh giá nhận thức cán bộ, đoàn viên thanh niên về Nghị quyết Đại hội Đoàn toàn quốc lần thứ XIII",
+  title: CONTEST_TITLE,
+  description: CONTEST_DESCRIPTION,
   monitorEnabled: true,
   maxAwaySeconds: 30,
   preventCopy: true,

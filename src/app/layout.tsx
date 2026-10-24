@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "../components/Navbar";
+import { CONTEST_TITLE, CONTEST_DESCRIPTION } from "../lib/branding.mjs";
 
 export const metadata: Metadata = {
-  title: "Thi trắc nghiệm trực tuyến",
-  description:
-    "Hệ thống thi trắc nghiệm trực tuyến, tính điểm và xếp hạng tập thể thi đua",
+  title: CONTEST_TITLE,
+  description: CONTEST_DESCRIPTION,
+  icons: { icon: "/csgt-logo.png" },
 };
 
 export default function RootLayout({
@@ -17,13 +18,16 @@ export default function RootLayout({
     <html lang="vi">
       <body className="text-slate-800 antialiased min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+        <main className="site-main flex-1 max-w-7xl w-full mx-auto px-4 py-6 sm:px-6 lg:px-8">
           {children}
         </main>
-        <footer className="bg-white border-t border-amber-200 py-6 mt-12 text-center text-xs text-slate-500">
-          <p>
-            © {new Date().getFullYear()} Hệ thống Khảo sát & Thi Trắc Nghiệm
-            Trực Tuyến.{" "}
+        <footer className="site-footer mt-12 py-6 text-center">
+          <p className="font-bold text-brand-800 text-sm">
+            Hiểu luật giao thông · Vững bước an toàn
+          </p>
+          <p className="mt-2 text-xs text-slate-600">
+            © {new Date().getFullYear()} · Cuộc thi tìm hiểu kiến thức pháp luật
+            về trật tự an toàn giao thông đường bộ
           </p>
         </footer>
       </body>

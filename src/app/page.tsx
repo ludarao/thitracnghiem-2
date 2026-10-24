@@ -4,6 +4,7 @@ import {
   formatNameInitials,
 } from "../lib/candidate-identity";
 import Verification from "../components/Verification";
+import ContestIntro from "../components/ContestIntro";
 
 import { useExamTab } from "../components/useExamTab";
 import ExamGuardDialog from "../components/ExamGuardDialog";
@@ -747,54 +748,29 @@ export default function ExamPage() {
   // Giao diện Đăng ký / Điền thông tin
   if (examState === "REGISTER") {
     return (
-      <div className="registration-layout grid lg:grid-cols-[1fr_1.05fr] gap-8 lg:gap-14 items-start py-6 sm:py-10">
-        <section className="registration-intro lg:sticky lg:top-40 py-4 lg:py-16">
-          <span className="inline-flex items-center gap-2 text-brand-800 text-xs font-bold uppercase tracking-[0.18em] mb-5">
-            <span className="h-px w-8 bg-brand-700" aria-hidden="true" /> Cổng
-            thi trực tuyến
-          </span>
-          <h1 className="text-3xl sm:text-4xl xl:text-5xl font-bold text-brand-700 leading-[1.2] tracking-tight">
-            {config.title}
-          </h1>
-          <p className="mt-6 text-lg sm:text-xl leading-relaxed text-brand-800 max-w-xl">
-            {config.description}
-          </p>
-          <div className="mt-8 pt-6 border-t border-amber-400/60 flex gap-6 text-brand-900">
-            <div>
-              <p className="text-3xl font-bold">{config.questionCount}</p>
-              <p className="text-sm mt-1">Câu hỏi mỗi bài</p>
-            </div>
-            <div className="w-px bg-amber-400/60" aria-hidden="true" />
-            <div>
-              <p className="text-3xl font-bold">
-                {config.totalTimeMinutes}
-                <span className="text-base font-medium ml-2">phút</span>
-              </p>
-              <p className="text-sm mt-1">Thời gian làm bài</p>
-            </div>
-          </div>
-          <p className="mt-7 text-sm leading-relaxed text-stone-700">
-            Điền thông tin để bắt đầu dự thi. Bạn có thể thi lại; hệ thống ghi
-            nhận kết quả cao nhất qua các lần thi.
-          </p>
-        </section>
-        <div className="bg-white rounded-2xl shadow-xl shadow-amber-900/10 border border-amber-200 overflow-hidden">
-          <div className="bg-gradient-to-r from-brand-700 to-brand-900 p-6 sm:p-8 text-white text-center relative overflow-hidden">
+      <div className="registration-layout grid lg:grid-cols-[1.3fr_1fr] gap-8 lg:gap-10 items-start py-2 sm:py-5">
+        <ContestIntro config={config} />
+        <div className="registration-card bg-white rounded-2xl border border-amber-200 overflow-hidden">
+          <div className="registration-card-heading p-6 text-white relative overflow-hidden">
             <div className="relative z-10">
-              <span className="inline-block px-3 py-1 rounded-full text-sm font-semibold uppercase tracking-wider bg-white/20 backdrop-blur-sm mb-3">
-                Hệ thống thi trắc nghiệm trực tuyến
-              </span>
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight mb-2">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-100 mb-2">
+                Sẵn sàng chinh phục kiến thức
+              </p>
+              <h2 className="text-2xl font-bold tracking-tight mb-1">
                 Đăng ký dự thi
               </h2>
-              <p className="text-brand-100 text-sm max-w-xl mx-auto">
-                Hoàn tất thông tin để nhận đề thi của bạn.
+              <p className="text-blue-100 text-sm">
+                Điền thông tin để bắt đầu hành trình của bạn.
               </p>
             </div>
-            <div className="absolute -top-12 -right-12 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+            <div className="traffic-lights" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </div>
           </div>
 
-          <div className="p-6 sm:p-8">
+          <div className="p-5 sm:p-6">
             {!config.isOpen && (
               <div className="mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 flex items-start gap-3 text-amber-800 text-sm">
                 <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
@@ -806,7 +782,7 @@ export default function ExamPage() {
             )}
 
             {/* Thông số đề thi */}
-            <div className="grid grid-cols-3 gap-3 mb-6 p-4 bg-slate-50 rounded-xl border border-slate-100 text-center">
+            <div className="grid grid-cols-3 gap-2 mb-6 p-3 bg-brand-50/60 rounded-xl border border-brand-100 text-center">
               <div>
                 <p className="text-xs text-slate-500 font-medium">Số câu thi</p>
                 <p className="text-base font-bold text-slate-800">
@@ -907,12 +883,16 @@ export default function ExamPage() {
               )}
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">
+                <label
+                  htmlFor="candidate-unit"
+                  className="block text-sm font-medium text-slate-700 mb-1"
+                >
                   3. Đơn vị <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <Building2 className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                   <select
+                    id="candidate-unit"
                     required
                     value={userInfo.unit}
                     onChange={(e) =>
@@ -980,7 +960,7 @@ export default function ExamPage() {
                     busy ||
                     (security.enabled && !verificationToken)
                   }
-                  className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-brand-600 to-brand-600 text-white font-semibold text-base shadow-lg shadow-brand-500/25 hover:from-brand-700 hover:to-brand-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+                  className="start-exam-button w-full py-3.5 px-6 rounded-xl text-white font-bold text-base shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
                 >
                   <span>
                     {busy ? "Đang tạo lượt thi..." : "Bắt Đầu Làm Bài Thi"}
