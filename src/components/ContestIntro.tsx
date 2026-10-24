@@ -2,9 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, BookOpen, Clock3, Trophy } from "lucide-react";
 import type { ExamConfig } from "../types/quiz";
+import { resolveContestBranding } from "../lib/branding.mjs";
 
 export default function ContestIntro({ config }: { config: ExamConfig }) {
-  const title = config.title.replace(/^Cuộc thi\s*/i, "");
+  const branding = resolveContestBranding(config);
+  const title = branding.title.replace(/^Cuộc thi\s*/i, "");
   const topic = /trật tự an toàn giao thông đường bộ/i;
   const parts = title.split(topic);
   const highlighted = title.match(topic)?.[0];
@@ -25,13 +27,13 @@ export default function ContestIntro({ config }: { config: ExamConfig }) {
           title
         )}
       </h1>
-      <p className="contest-description">{config.description}</p>
+      <p className="contest-description">{branding.description}</p>
       <div className="traffic-illustration">
         <Image
           src="/traffic-city.svg"
           alt="Minh họa đường phố an toàn với xe buýt, ô tô, người đi xe đạp, đèn tín hiệu và vạch qua đường"
           width={720}
-          height={340}
+          height={300}
           preload
         />
       </div>
