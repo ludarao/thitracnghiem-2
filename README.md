@@ -4,12 +4,14 @@ Bản sao độc lập từ `ludarao/thitracnghiem`, nhánh `codex/local-exam-gu
 
 ## Chức năng hiện tại
 
-- Đăng ký bằng viết tắt họ tên, số điện thoại và đơn vị; mã ví dụ `ptb0985728123`.
+- Đăng ký bằng viết tắt họ tên và số điện thoại; mục đơn vị được ẩn, mã ví dụ `ptb0985728123`.
 - Thi lại nhiều lần; xếp hạng lấy điểm cao nhất, bằng điểm lấy lượt nhanh nhất, rồi lượt nộp mới hơn.
 - Đáp án/tiến độ lưu trên máy, nộp một lần và có thể gửi lại khi lỗi mạng; server chấm điểm và chống lưu trùng.
-- Dashboard: 20 thí sinh/trang (che 4 số cuối điện thoại), 10 đơn vị/trang.
+- Dashboard: 20 thí sinh/trang (che 4 số cuối điện thoại); ẩn cột đơn vị và bảng xếp hạng đơn vị.
 - Admin nhập câu hỏi/đơn vị qua Excel, xuất toàn bộ lượt nộp ra Excel, sao lưu JSON và xóa dữ liệu có xác nhận mật khẩu.
 - Giám sát rời tab/ứng dụng và chống copy theo cấu hình, xử lý local; xác minh Turnstile tùy chọn.
+
+Mục đơn vị được ẩn trên giao diện công khai, kể cả khi làm bài và xem kết quả. Lượt đăng ký mới không gửi đơn vị sẽ lưu chuỗi rỗng; không tự gán vào đơn vị đầu tiên. Schema, dữ liệu đơn vị cũ, quản trị và xuất dữ liệu vẫn được giữ, không cần migration.
 
 ## Triển khai app mới
 

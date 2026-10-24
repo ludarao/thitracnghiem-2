@@ -30,7 +30,6 @@ import {
   AlertCircle,
   CheckCircle2,
   User,
-  Building2,
   ChevronRight,
   ChevronLeft,
   Send,
@@ -205,14 +204,6 @@ export default function ExamPage() {
         throw new Error("Không tải được cấu hình xác minh. Vui lòng thử lại.");
       setConfig(data.config);
       setSecurity(data.security);
-      setUserInfo((prev) => ({
-        ...prev,
-        unit: data.config.units.some(
-          (unit: { name: string }) => unit.name === prev.unit,
-        )
-          ? prev.unit
-          : data.config.units[0]?.name || "",
-      }));
       setRegistrationReady(true);
       setError("");
     } catch (e) {
@@ -522,7 +513,6 @@ export default function ExamPage() {
         body: JSON.stringify({
           userInfo: {
             ...candidateIdentity(userInfo.nameInitials, userInfo.phone),
-            unit: userInfo.unit,
           },
           verificationToken,
         }),
@@ -882,36 +872,6 @@ export default function ExamPage() {
                 </p>
               )}
 
-              <div>
-                <label
-                  htmlFor="candidate-unit"
-                  className="block text-sm font-medium text-slate-700 mb-1"
-                >
-                  3. Đơn vị <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <Building2 className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-                  <select
-                    id="candidate-unit"
-                    required
-                    value={userInfo.unit}
-                    onChange={(e) =>
-                      setUserInfo({ ...userInfo, unit: e.target.value })
-                    }
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent text-sm bg-white"
-                  >
-                    {config.units.map((u) => (
-                      <option key={u.name} value={u.name}>
-                        {u.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <p className="text-xs text-slate-500 mt-1">
-                  * Chọn mã đơn vị đã được cung cấp trước
-                </p>
-              </div>
-
               <div className="pt-4">
                 {config.monitorEnabled && (
                   <p className="mb-3 rounded-xl bg-amber-50 border border-amber-200 p-3 text-sm text-amber-900">
@@ -1031,7 +991,6 @@ export default function ExamPage() {
                 <p className="text-sm font-semibold text-slate-800">
                   {userInfo.candidateCode || userInfo.serviceNumber}
                 </p>
-                <p className="text-xs text-slate-500">{userInfo.unit}</p>
               </div>
             </div>
 
@@ -1261,8 +1220,7 @@ export default function ExamPage() {
             Thí sinh:{" "}
             <span className="font-semibold text-slate-700">
               {result.userInfo.candidateCode || result.userInfo.serviceNumber}
-            </span>{" "}
-            ({result.userInfo.unit})
+            </span>
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-100 mb-6">

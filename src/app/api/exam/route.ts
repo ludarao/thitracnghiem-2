@@ -44,16 +44,18 @@ export async function POST(req: NextRequest) {
     const existingConfig = s.config as unknown as ExamConfig;
     const cfg = { ...existingConfig, ...protectionSettings(existingConfig) };
     if (!cfg.isOpen) throw new Error("Kỳ thi đang đóng.");
+    // Unit selection is hidden in the public form. Keep an empty string for
+    // new submissions without a unit; old clients may still send valid units.
+    const unit = info?.unit === undefined ? "" : info.unit;
     if (
-      !info ||
-      typeof info.unit !== "string" ||
-      !cfg.units.some((u) => u.name === info.unit)
+      typeof unit !== "string" ||
+      (unit !== "" && !cfg.units.some((u) => u.name === unit))
     )
-      throw new Error("Vui lòng chọn đơn vị trong danh sách.");
-    const identity = candidateIdentity(info.nameInitials, info.phone);
+      throw new Error("Đơn vị không hợp lệ.");
+    const identity = candidateIdentity(info?.nameInitials, info?.phone);
     const snapshot = {
       ...identity,
-      unit: info.unit,
+      unit,
     };
     const candidate = await prisma.candidate.upsert({
       where: { code: identity.candidateCode },

@@ -264,7 +264,7 @@ test("offline active attempt restores without loading registration config", asyn
   }
 });
 
-test("registration collects initials and phone, previews lowercase code, and sends only current fields", async () => {
+test("registration hides unit selection and starts with only initials and phone", async () => {
   const h = setup();
   try {
     await h.flush();
@@ -276,6 +276,9 @@ test("registration collects initials and phone, previews lowercase code, and sen
     await h.flush();
     const input = (id) => nodes(h.tree).find((n) => n.props?.id === id);
     assert.equal(input("service-number"), undefined);
+    assert.equal(input("candidate-unit"), undefined);
+    assert.equal(nodes(h.tree).filter((n) => n.type === "select").length, 0);
+    assert.ok(!text(h.tree).includes("Đơn vị"));
     input("name-initials").props.onChange({ target: { value: "P T B" } });
     h.render();
     input("candidate-phone").props.onChange({
@@ -307,7 +310,6 @@ test("registration collects initials and phone, previews lowercase code, and sen
       nameInitials: "ptb",
       phone: "0985728123",
       candidateCode: "ptb0985728123",
-      unit: "A",
     });
     assert.ok(text(h.tree).includes("ptb0985728123"));
   } finally {

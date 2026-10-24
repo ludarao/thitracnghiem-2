@@ -117,11 +117,20 @@ const pagination = (h, label) =>
   nodes(h.tree).find(
     (n) => n.props?.label === label && typeof n.props?.onPage === "function",
   );
-test("dashboard has two tables and independent pages; mount and each action use one request", async () => {
+test("dashboard hides unit rankings and columns; candidate paging and refresh use one request", async () => {
   const h = setup();
   await h.flush();
   assert.equal(h.calls.length, 1);
-  assert.equal(nodes(h.tree).filter((n) => n.type === "table").length, 2);
+  assert.equal(nodes(h.tree).filter((n) => n.type === "table").length, 1);
+  assert.deepEqual(
+    nodes(h.tree)
+      .filter((n) => n.type === "th")
+      .map(text),
+    ["Hạng", "Mã thí sinh", "Điểm", "Thời gian"],
+  );
+  assert.equal(pagination(h, "Phân trang đơn vị"), undefined);
+  assert.ok(!text(h.tree).includes("Xếp hạng đơn vị"));
+  assert.ok(!text(h.tree).includes("U1-0"));
   assert.ok(text(h.tree).includes("ptb098572****"));
   assert.ok(!text(h.tree).includes("0985728123"));
   assert.ok(text(h.tree).includes("1 phút 5 giây"));
@@ -129,21 +138,17 @@ test("dashboard has two tables and independent pages; mount and each action use 
   await h.flush();
   assert.equal(h.calls.length, 2);
   assert.match(h.calls[1], /page=2&unitsPage=1/);
-  pagination(h, "Phân trang đơn vị").props.onPage(2);
-  await h.flush();
-  assert.equal(h.calls.length, 3);
-  assert.match(h.calls[2], /page=2&unitsPage=2/);
   assert.equal(pagination(h, "Phân trang thí sinh").props.page, 2);
   const refresh = nodes(h.tree).find(
     (n) => n.type === "button" && text(n) === "Làm mới",
   );
   refresh.props.onClick();
   await h.flush();
-  assert.equal(h.calls.length, 4);
-  assert.match(h.calls[3], /page=2&unitsPage=2/);
+  assert.equal(h.calls.length, 3);
+  assert.match(h.calls[2], /page=2&unitsPage=1/);
   h.render();
   await h.flush();
-  assert.equal(h.calls.length, 4);
+  assert.equal(h.calls.length, 3);
 });
 test("failed page change keeps previous rows and pages; in-flight requests disable navigation", async () => {
   const h = setup();
@@ -156,12 +161,12 @@ test("failed page change keeps previous rows and pages; in-flight requests disab
   pagination(h, "Phân trang thí sinh").props.onPage(2);
   h.render();
   assert.equal(pagination(h, "Phân trang thí sinh").props.busy, true);
-  pagination(h, "Phân trang đơn vị").props.onPage(2);
+  pagination(h, "Phân trang thí sinh").props.onPage(3);
   assert.equal(h.calls.length, 2);
   reject(new Error("offline"));
   await h.flush();
   assert.equal(pagination(h, "Phân trang thí sinh").props.page, 1);
-  assert.equal(pagination(h, "Phân trang đơn vị").props.page, 1);
+  assert.equal(pagination(h, "Phân trang đơn vị"), undefined);
   assert.ok(text(h.tree).includes("Không tải được"));
   assert.ok(text(h.tree).includes("ptb098572****"));
 });

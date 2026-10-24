@@ -1,9 +1,9 @@
 # Dashboard số lượng dự thi và xếp hạng
 
-Dashboard công khai có hai bảng với phân trang độc lập:
+Dashboard công khai hiện chỉ hiển thị bảng xếp hạng thí sinh:
 
-- Thí sinh: 20 người/trang, điểm giảm dần; cùng điểm thì thời gian làm bài tăng dần. Hiển thị hạng, mã đã che, đơn vị, điểm /10 và thời gian.
-- Đơn vị: 10 đơn vị/trang, số người đã nộp bài giảm dần. Cùng số lượng sắp theo tên đơn vị để thứ tự ổn định. Đơn vị chưa có bài nộp vẫn có dòng số 0.
+- Thí sinh: 20 người/trang, điểm giảm dần; cùng điểm thì thời gian làm bài tăng dần. Hiển thị hạng, mã đã che, điểm /10 và thời gian; cột đơn vị được ẩn.
+- Bảng xếp hạng đơn vị và phân trang đơn vị được ẩn. API thống kê, dữ liệu và cấu hình đơn vị cũ vẫn giữ để tương thích; không có migration hoặc thao tác xóa dữ liệu.
 
 Mỗi Candidate chỉ lấy một lượt đã nộp của kỳ hiện tại: điểm cao nhất, cùng điểm chọn thời gian ngắn nhất, cùng thời gian chọn submittedAt mới hơn rồi ID để ổn định. Đơn vị của lượt được chọn là đơn vị nhận một người tham gia; thi lại không tăng tổng người. Không đổi nội dung bài thi hoặc xóa các lượt cũ. Chính sách nhận bài offline/Bug 1 giữ nguyên; submittedAt hiện có vẫn giữ cơ chế cũ.
 
@@ -11,7 +11,7 @@ Mã mới ptb0985728123 được xuất công khai thành ptb098572****. Mask t�
 
 ## API và request
 
-- GET /api/results?dashboard=1&page=1&unitsPage=1: trả cả hai bảng trong một request, gồm tổng người/đơn vị và số trang. Dashboard tự đưa trang vượt phạm vi về trang cuối hợp lệ, ví dụ sau khi mở kỳ mới/xóa kết quả.
+- GET /api/results?dashboard=1&page=1&unitsPage=1: trả cả hai bảng trong một request, gồm tổng người/đơn vị và số trang. Dữ liệu đơn vị trong response vẫn được giữ để tương thích nhưng không hiển thị trên giao diện. Dashboard tự đưa trang vượt phạm vi về trang cuối hợp lệ, ví dụ sau khi mở kỳ mới/xóa kết quả.
 - GET /api/results?page=1: bảng cá nhân 20 dòng; trang ngoài phạm vi trả rỗng, không truy vấn chi tiết/cached page riêng.
 - GET /api/results?counts=1&page=1: bảng đơn vị 10 dòng, có tổng và số trang.
 - GET history=1 vẫn yêu cầu Admin, phân trang 50 lượt và giữ thông tin đầy đủ; không đổi.

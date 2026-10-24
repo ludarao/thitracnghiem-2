@@ -341,6 +341,34 @@ test("API đăng ký: từ chối thiếu/sai viết tắt, điện thoại và 
   }
   assert.equal(candidates.size, 0);
 });
+test("API đăng ký không cần đơn vị, giữ dữ liệu cũ và nộp bài bình thường", async () => {
+  reset();
+  await start();
+  const existingCandidate = [...candidates.values()][0];
+  const originalInfo = structuredClone(existingCandidate.info);
+  const noUnit = await start({
+    nameInitials: userInfo.nameInitials,
+    phone: userInfo.phone,
+  });
+  assert.equal(candidates.size, 1);
+  assert.deepEqual(existingCandidate.info, originalInfo);
+  assert.equal(noUnit.userInfo.unit, "");
+  const response = await action(noUnit.token, {
+    action: "submit",
+    answers: { 1: "A", 2: "B" },
+  });
+  const submitted = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(submitted.result.score, 10);
+  assert.equal(submitted.result.userInfo.unit, "");
+  const fresh = await start({ nameInitials: "nva", phone: "0985728124" });
+  assert.equal(fresh.userInfo.unit, "");
+  assert.equal(
+    [...candidates.values()].find((c) => c.code === fresh.candidateCode).info
+      .unit,
+    "",
+  );
+});
 test("API lượt thi: không lộ đáp án đúng, chấm server và nộp trùng không đổi kết quả", async () => {
   reset();
   const { token } = await start();

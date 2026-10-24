@@ -138,7 +138,7 @@ export default function DashboardPage() {
         </p>
       )}
       {data && (
-        <div className="grid grid-cols-1 xl:grid-cols-[1.35fr_1fr] gap-5 items-start">
+        <div className="space-y-5">
           <section
             aria-labelledby="candidate-ranks"
             aria-busy={loading}
@@ -167,9 +167,6 @@ export default function DashboardPage() {
                     <th scope="col" className="p-3">
                       Mã thí sinh
                     </th>
-                    <th scope="col" className="p-3">
-                      Đơn vị
-                    </th>
                     <th scope="col" className="p-3 text-right">
                       Điểm
                     </th>
@@ -187,7 +184,6 @@ export default function DashboardPage() {
                       <td className="p-3 font-medium whitespace-nowrap">
                         {row.maskedCandidateCode}
                       </td>
-                      <td className="p-3">{row.userInfo.unit}</td>
                       <td className="p-3 text-right font-bold text-brand-700">
                         {row.score}/10
                       </td>
@@ -199,7 +195,7 @@ export default function DashboardPage() {
                   {!data.results.length && (
                     <tr>
                       <td
-                        colSpan={5}
+                        colSpan={4}
                         className="p-6 text-center text-slate-500"
                       >
                         Chưa có thí sinh nộp bài.
@@ -219,75 +215,6 @@ export default function DashboardPage() {
             />
             <p className="px-4 pb-4 text-xs text-slate-400">
               Cập nhật lúc {new Date(data.asOf).toLocaleString("vi-VN")}.
-            </p>
-          </section>
-          <section
-            aria-labelledby="unit-ranks"
-            aria-busy={loading}
-            className="bg-white rounded-2xl border border-amber-200 overflow-hidden shadow-sm"
-          >
-            <div className="p-5 border-b border-amber-100 bg-brand-50/50 space-y-1">
-              <h2
-                id="unit-ranks"
-                className="font-bold text-brand-700 flex items-center gap-2"
-              >
-                <Users className="w-5 h-5" />
-                Xếp hạng đơn vị
-              </h2>
-              <p className="text-xs text-slate-500">
-                Số người đã dự thi từ nhiều đến ít · 10 đơn vị/trang
-              </p>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
-                <thead className="bg-slate-50 text-slate-600">
-                  <tr>
-                    <th scope="col" className="p-3">
-                      Hạng
-                    </th>
-                    <th scope="col" className="p-3">
-                      Đơn vị
-                    </th>
-                    <th scope="col" className="p-3 text-right">
-                      Số người dự thi
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.units.map((row, index) => (
-                    <tr key={row.unit} className="border-t border-slate-100">
-                      <td className="p-3 font-semibold text-brand-700">
-                        {(data.unitsPage - 1) * data.unitsPageSize + index + 1}
-                      </td>
-                      <td className="p-3 font-medium">{row.unit}</td>
-                      <td className="p-3 text-right font-bold text-brand-700">
-                        {row.participantCount}
-                      </td>
-                    </tr>
-                  ))}
-                  {!data.units.length && (
-                    <tr>
-                      <td
-                        colSpan={3}
-                        className="p-6 text-center text-slate-500"
-                      >
-                        Chưa có đơn vị.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-            <Pagination
-              label="Phân trang đơn vị"
-              page={data.unitsPage}
-              pages={data.unitsTotalPages}
-              total={data.totalUnits}
-              busy={loading}
-              onPage={(page) => void load(data.page, page)}
-            />
-            <p className="px-4 pb-4 text-xs text-slate-400">
-              Cập nhật lúc {new Date(data.countsAsOf).toLocaleString("vi-VN")}.
             </p>
           </section>
         </div>

@@ -4,7 +4,7 @@ Form đăng ký mới gồm:
 
 1. Chữ cái viết tắt họ và tên: ví dụ Phạm Trần Bình nhập ptb.
 2. Số điện thoại: ví dụ 0985728123.
-3. Đơn vị: chọn từ danh sách cấu hình hiện có.
+Mục chọn đơn vị được ẩn trên giao diện công khai. Đăng ký mới chỉ gửi viết tắt và điện thoại; API giữ trường `unit` dạng chuỗi rỗng khi không được gửi. Dữ liệu và schema cũ được giữ, các client cũ gửi đơn vị hợp lệ vẫn được hỗ trợ.
 
 Mã được server tự tính, không tin mã do trình duyệt gửi: ptb0985728123. Viết tắt chuyển chữ thường, bỏ dấu và khoảng trắng; Đ đổi thành d. Giới hạn 1–20 chữ cái. Điện thoại được giữ dưới dạng chuỗi để bảo toàn số 0 đầu, chấp nhận số di động Việt Nam 10 chữ số và chuẩn hóa +84 về 0. Số không hợp lệ bị từ chối. Trình duyệt hiện trước mã hoàn chỉnh khi hai trường hợp lệ; nhập thông tin không tạo request đồng bộ.
 
