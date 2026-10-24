@@ -19,28 +19,45 @@ export default function Navbar() {
     <header className="site-header sticky top-0 z-50 border-b border-amber-200/70">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-between gap-3 py-3">
-          <div className="flex items-center space-x-3">
-            <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex min-w-0 items-center gap-3 sm:gap-4">
+            <span className="flex shrink-0 items-center gap-1.5 rounded-lg bg-white p-1.5 sm:gap-2 sm:p-2">
               <Image
                 src="/csgt-logo.png"
                 alt="Biểu trưng Cảnh sát giao thông"
                 width={55}
-                height={64}
+                height={62}
                 preload
-                className="w-11 sm:w-[50px] h-auto shrink-0"
+                className="h-8 w-auto object-contain sm:h-[52px]"
               />
-              <div className="flex flex-col">
-                <span className="font-bold text-brand-700 leading-tight text-sm sm:text-base">
-                  CÔNG AN TỈNH GIA LAI
-                </span>
-                <span className="mt-1 text-[10px] sm:text-xs font-semibold tracking-wide text-brand-700">
-                  TÌM HIỂU PHÁP LUẬT GIAO THÔNG
-                </span>
-              </div>
-            </Link>
-          </div>
+              <Image
+                src="/youth-union-logo.png"
+                alt="Logo Đoàn Thanh niên Cộng sản Hồ Chí Minh"
+                width={48}
+                height={53}
+                preload
+                className="h-8 w-auto object-contain sm:h-[52px]"
+              />
+              <Image
+                src="/women-union-logo.png"
+                alt="Logo Hội Liên hiệp Phụ nữ Việt Nam"
+                width={64}
+                height={56}
+                preload
+                className="h-8 w-auto object-contain sm:h-[52px]"
+              />
+            </span>
+            <span className="flex min-w-0 flex-col">
+              <span className="font-bold text-brand-700 leading-tight text-xs sm:text-base">
+                CÔNG AN TỈNH GIA LAI
+              </span>
+              <span className="mt-1 text-[10px] sm:text-xs font-semibold leading-relaxed text-brand-700">
+                ĐOÀN THANH NIÊN - HỘI PHỤ NỮ{" "}
+                <span className="block">PHÒNG CẢNH SÁT GIAO THÔNG</span>
+              </span>
+            </span>
+          </Link>
 
-          <nav className="flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center sm:justify-end">
+          <nav className="flex items-center gap-1 sm:gap-2 w-full lg:w-auto justify-center lg:justify-end">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
